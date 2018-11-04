@@ -1,0 +1,13 @@
+--- Uranium-3.5.1/cmake/UraniumTests.cmake~	2018-10-15 11:44:28.000000000 +0200
++++ Uranium-3.5.1/cmake/UraniumTests.cmake	2018-11-04 13:20:29.843658161 +0100
+@@ -46,9 +46,3 @@
+         uranium_add_test(NAME pytest-${_plugin_name} DIRECTORY ${_plugin_directory} PYTHONPATH "${CMAKE_SOURCE_DIR}|${_plugin_directory}")
+     endif()
+ endforeach()
+-
+-#Add code style test.
+-add_test(
+-    NAME "code-style"
+-    COMMAND ${PYTHON_EXECUTABLE} run_mypy.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+-)
+\ No newline at end of file

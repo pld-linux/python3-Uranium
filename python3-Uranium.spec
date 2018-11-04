@@ -1,14 +1,14 @@
 %define		module		Uranium
 Summary:	A Python framework for building desktop applications
 Name:		python3-%{module}
-Version:	2.5.0
-Release:	4
+Version:	3.5.1
+Release:	1
 License:	AGPLv3+
 Group:		Libraries/Python
 URL:		https://github.com/Ultimaker/Uranium
 Source0:	https://github.com/Ultimaker/Uranium/archive/%{version}/%{module}-%{version}.tar.gz
-# Source0-md5:	28586f24c35d99e5730692defd728b3e
-Patch0:		plugins-path.patch
+# Source0-md5:	c67cc1f04d5a78595eefa55a02629c47
+Patch0:		remove-mypy-test.patch
 BuildRequires:	cmake
 BuildRequires:	doxygen
 BuildRequires:	gettext-tools
@@ -17,11 +17,13 @@ BuildRequires:	python3-devel
 BuildRequires:	python3-numpy
 BuildRequires:	python3-pytest
 BuildRequires:	python3-scipy
+BuildRequires:	python3-shapely
 BuildRequires:	sip-PyQt5
 Requires:	python3-Arcus = %{version}
 Requires:	python3-PyQt5
 Requires:	python3-numpy
 Requires:	python3-scipy
+Requires:	python3-shapely
 Obsoletes:	python3-UM
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -42,14 +44,14 @@ related applications.
 %setup -q -n %{module}-%{version}
 %patch0 -p1
 
+for bad_lang in de_DE es_ES fi_FI fr_FR hu_HU it_IT ja_JP ko_KR nl_NL pl_PL pt_PT ru_RU tr_TR ; do
+	lang="$(echo $bad_lang | sed 's/_.*//')"
+	%{__mv} "resources/i18n/$bad_lang" "resources/i18n/$lang"
+done
+
 # Upstream installs to lib/python3/dist-packages
 # We want to install to %%{py3_sitescriptdir}
-sed -i 's|lib/python${PYTHON_VERSION_MAJOR}/dist-packages|%(echo %{py3_sitescriptdir} | sed -e s@%{_prefix}/@@)|g' CMakeLists.txt
-
-# Invalid locale name ptbr
-# https://github.com/Ultimaker/Uranium/issues/246
-mv resources/i18n/{ptbr,pt_BR}
-sed -i 's/"Language: ptbr\n"/"Language: pt_BR\n"/' resources/i18n/pt_BR/*.po
+sed -i 's|lib${LIB_SUFFIX}/python${PYTHON_VERSION_MAJOR}.*/.*-packages|%(echo %{py3_sitescriptdir} | sed -e s@%{_prefix}/@@)|g' CMakeLists.txt
 
 # empty file. appending to the end to make sure we are not overriding
 # a non empty file in the future
@@ -91,6 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.md
 %{py3_sitescriptdir}/UM
+%{_libdir}/uranium
 %{_datadir}/uranium
 %{_datadir}/cmake
 
