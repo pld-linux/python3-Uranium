@@ -2,13 +2,14 @@
 Summary:	A Python framework for building desktop applications
 Name:		python3-%{module}
 Version:	3.5.1
-Release:	1
+Release:	2
 License:	AGPLv3+
 Group:		Libraries/Python
 URL:		https://github.com/Ultimaker/Uranium
 Source0:	https://github.com/Ultimaker/Uranium/archive/%{version}/%{module}-%{version}.tar.gz
 # Source0-md5:	c67cc1f04d5a78595eefa55a02629c47
 Patch0:		remove-mypy-test.patch
+Patch1:		plugins-path.patch
 BuildRequires:	cmake
 BuildRequires:	doxygen
 BuildRequires:	gettext-tools
@@ -43,6 +44,7 @@ related applications.
 %prep
 %setup -q -n %{module}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 for bad_lang in de_DE es_ES fi_FI fr_FR hu_HU it_IT ja_JP ko_KR nl_NL pl_PL pt_PT ru_RU tr_TR ; do
 	lang="$(echo $bad_lang | sed 's/_.*//')"
@@ -93,7 +95,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.md
 %{py3_sitescriptdir}/UM
-%{_libdir}/uranium
 %{_datadir}/uranium
 %{_datadir}/cmake
 
