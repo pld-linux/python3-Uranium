@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_with	tests	# do not perform "make test"
+
 %define		module		Uranium
 Summary:	A Python framework for building desktop applications
 Name:		python3-%{module}
@@ -69,7 +73,7 @@ cd build
 %{__make}
 %{__make} doc
 
-%{__make} test
+%{?with_tests:%{__make} test}
 
 %install
 rm -rf $RPM_BUILD_ROOT
