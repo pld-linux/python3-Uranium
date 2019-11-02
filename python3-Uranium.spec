@@ -6,7 +6,7 @@
 Summary:	A Python framework for building desktop applications
 Name:		python3-%{module}
 Version:	3.5.1
-Release:	4
+Release:	5
 License:	AGPLv3+
 Group:		Libraries/Python
 URL:		https://github.com/Ultimaker/Uranium
