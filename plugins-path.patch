@@ -1,19 +1,22 @@
---- Uranium-3.5.1/CMakeLists.txt~	2018-11-04 14:15:43.000000000 +0100
-+++ Uranium-3.5.1/CMakeLists.txt	2018-11-04 14:16:18.346958842 +0100
+--- Uranium-3.5.1/cmake/UraniumPluginInstall.cmake~	2018-11-04 14:15:43.000000000 +0100
++++ Uranium-3.5.1/cmake/UraniumPluginInstall.cmake	2018-11-04 14:16:18.346958842 +0100
 @@ -55,6 +55,6 @@
- install(FILES ${CMAKE_SOURCE_DIR}/cmake/UraniumTranslationTools.cmake
-         DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/ )
- install(DIRECTORY resources DESTINATION ${CMAKE_INSTALL_DATADIR}/uranium)
--install(DIRECTORY plugins DESTINATION lib${LIB_SUFFIX}/uranium)
-+install(DIRECTORY plugins DESTINATION ${CMAKE_INSTALL_DATADIR}/uranium)
- 
- include(CPackConfig.cmake)
+         message(STATUS "[+] PLUGIN TO INSTALL: ${_rel_plugin_dir}")
+         get_filename_component(_rel_plugin_parent_dir ${_rel_plugin_dir} DIRECTORY)
+         install(DIRECTORY ${_rel_plugin_dir}
+-                DESTINATION lib${LIB_SUFFIX}/uranium/${_rel_plugin_parent_dir}
++                DESTINATION ${CMAKE_INSTALL_DATADIR}/uranium/${_rel_plugin_parent_dir}
+                 PATTERN "__pycache__" EXCLUDE
+                 PATTERN "*.qmlc" EXCLUDE
+                 )
 --- Uranium-3.5.1/UM/Application.py~	2018-10-15 11:44:28.000000000 +0200
 +++ Uranium-3.5.1/UM/Application.py	2018-11-04 14:30:40.963992502 +0100
 @@ -165,6 +165,7 @@
-         self._plugin_registry = PluginRegistry(self)  #type: PluginRegistry
  
-         self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, UraniumLibraryDir, "uranium"))
+         self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, "lib", "uranium"))
+         self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, "lib64", "uranium"))
+-        self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, "lib32", "uranium"))
++        self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, "libx32", "uranium"))
 +        self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, "share", "uranium"))
          self._plugin_registry.addPluginLocation(os.path.join(os.path.dirname(sys.executable), "plugins"))
          self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, "Resources", "uranium", "plugins"))

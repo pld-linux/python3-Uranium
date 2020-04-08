@@ -5,13 +5,13 @@
 %define		module		Uranium
 Summary:	A Python framework for building desktop applications
 Name:		python3-%{module}
-Version:	3.5.1
-Release:	5
+Version:	4.5.0
+Release:	1
 License:	AGPLv3+
 Group:		Libraries/Python
 URL:		https://github.com/Ultimaker/Uranium
 Source0:	https://github.com/Ultimaker/Uranium/archive/%{version}/%{module}-%{version}.tar.gz
-# Source0-md5:	c67cc1f04d5a78595eefa55a02629c47
+# Source0-md5:	ebfbcb5d98fbf4056aa00a72051499c6
 Patch0:		remove-mypy-test.patch
 Patch1:		plugins-path.patch
 BuildRequires:	cmake
