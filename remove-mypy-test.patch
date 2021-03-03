@@ -1,6 +1,7 @@
---- Uranium-3.5.1/cmake/UraniumTests.cmake~	2018-10-15 11:44:28.000000000 +0200
-+++ Uranium-3.5.1/cmake/UraniumTests.cmake	2018-11-04 13:20:29.843658161 +0100
-@@ -46,9 +46,3 @@
+diff -urNp -x '*.orig' Uranium-4.5.0.org/cmake/UraniumTests.cmake Uranium-4.5.0/cmake/UraniumTests.cmake
+--- Uranium-4.5.0.org/cmake/UraniumTests.cmake	2020-02-24 16:02:05.000000000 +0100
++++ Uranium-4.5.0/cmake/UraniumTests.cmake	2021-03-03 12:41:43.155972843 +0100
+@@ -48,9 +48,3 @@ foreach(_plugin ${_plugins})
          uranium_add_test(NAME pytest-${_plugin_name} DIRECTORY ${_plugin_directory} PYTHONPATH "${CMAKE_SOURCE_DIR}|${_plugin_directory}")
      endif()
  endforeach()

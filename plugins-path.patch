@@ -1,17 +1,7 @@
---- Uranium-3.5.1/cmake/UraniumPluginInstall.cmake~	2018-11-04 14:15:43.000000000 +0100
-+++ Uranium-3.5.1/cmake/UraniumPluginInstall.cmake	2018-11-04 14:16:18.346958842 +0100
-@@ -55,6 +55,6 @@
-         message(STATUS "[+] PLUGIN TO INSTALL: ${_rel_plugin_dir}")
-         get_filename_component(_rel_plugin_parent_dir ${_rel_plugin_dir} DIRECTORY)
-         install(DIRECTORY ${_rel_plugin_dir}
--                DESTINATION lib${LIB_SUFFIX}/uranium/${_rel_plugin_parent_dir}
-+                DESTINATION ${CMAKE_INSTALL_DATADIR}/uranium/${_rel_plugin_parent_dir}
-                 PATTERN "__pycache__" EXCLUDE
-                 PATTERN "*.qmlc" EXCLUDE
-                 )
---- Uranium-3.5.1/UM/Application.py~	2018-10-15 11:44:28.000000000 +0200
-+++ Uranium-3.5.1/UM/Application.py	2018-11-04 14:30:40.963992502 +0100
-@@ -165,6 +165,7 @@
+diff -urNp -x '*.orig' Uranium-4.5.0.org/UM/Application.py Uranium-4.5.0/UM/Application.py
+--- Uranium-4.5.0.org/UM/Application.py	2020-02-24 16:02:05.000000000 +0100
++++ Uranium-4.5.0/UM/Application.py	2021-03-03 12:41:43.359304943 +0100
+@@ -182,7 +182,8 @@ class Application:
  
          self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, "lib", "uranium"))
          self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, "lib64", "uranium"))
@@ -21,3 +11,15 @@
          self._plugin_registry.addPluginLocation(os.path.join(os.path.dirname(sys.executable), "plugins"))
          self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, "Resources", "uranium", "plugins"))
          self._plugin_registry.addPluginLocation(os.path.join(self._app_install_dir, "Resources", self._app_name, "plugins"))
+diff -urNp -x '*.orig' Uranium-4.5.0.org/cmake/UraniumPluginInstall.cmake Uranium-4.5.0/cmake/UraniumPluginInstall.cmake
+--- Uranium-4.5.0.org/cmake/UraniumPluginInstall.cmake	2020-02-24 16:02:05.000000000 +0100
++++ Uranium-4.5.0/cmake/UraniumPluginInstall.cmake	2021-03-03 12:41:43.359304943 +0100
+@@ -84,7 +84,7 @@ foreach(_plugin_json_path ${_plugin_json
+         message(STATUS "[+] PLUGIN TO INSTALL: ${_rel_plugin_dir}")
+         get_filename_component(_rel_plugin_parent_dir ${_rel_plugin_dir} DIRECTORY)
+         install(DIRECTORY ${_rel_plugin_dir}
+-                DESTINATION lib${LIB_SUFFIX}/uranium/${_rel_plugin_parent_dir}
++                DESTINATION ${CMAKE_INSTALL_DATADIR}/uranium/${_rel_plugin_parent_dir}
+                 PATTERN "__pycache__" EXCLUDE
+                 PATTERN "*.qmlc" EXCLUDE
+                 )
