@@ -1,20 +1,23 @@
 #
 # Conditional build:
-%bcond_with	tests	# do not perform "make test"
+%bcond_with	tests	# test suite
 
 %define		module		Uranium
 Summary:	A Python framework for building desktop applications
+Summary(pl.UTF-8):	Szkielet Pythona do tworzenia aplikacji graficznych
 Name:		python3-%{module}
-Version:	4.5.0
-Release:	4
-License:	AGPLv3+
+# keep in sync with CuraEngine, cura, libArcus, libSavitar
+Version:	4.13.2
+Release:	1
+License:	AGPL v3+
 Group:		Libraries/Python
-URL:		https://github.com/Ultimaker/Uranium
+#Source0Download: https://github.com/Ultimaker/Uranium/tags
 Source0:	https://github.com/Ultimaker/Uranium/archive/%{version}/%{module}-%{version}.tar.gz
-# Source0-md5:	ebfbcb5d98fbf4056aa00a72051499c6
+# Source0-md5:	be9516a605fe1f6160711a746864774f
 Patch0:		remove-mypy-test.patch
 Patch1:		plugins-path.patch
-BuildRequires:	cmake
+URL:		https://github.com/Ultimaker/Uranium
+BuildRequires:	cmake >= 3.6
 BuildRequires:	doxygen
 BuildRequires:	gettext-tools
 BuildRequires:	python3-Arcus = %{version}
@@ -29,7 +32,7 @@ Requires:	python3-PyQt5
 Requires:	python3-numpy
 Requires:	python3-scipy
 Requires:	python3-shapely
-Obsoletes:	python3-UM
+Obsoletes:	python3-UM < 0.2
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -37,20 +40,29 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Uranium is a Python framework for building 3D printing related
 applications.
 
+%description -l pl.UTF-8
+Uranium to pythonowy szkielt do tworzenia aplikacji związanych z
+drukiem 3D.
+
 %package doc
-Summary:	Documentation for %{name} package
+Summary:	Documentation for Python Uranium library
+Summary(pl.UTF-8):	Dokumentacja do biblioteki Pythona Uranium
 Group:		Documentation
 
 %description doc
 Documentation for Uranium, a Python framework for building 3D printing
 related applications.
 
+%description doc -l pl.UTF-8
+Dokumentacja do Uranium - szkieletu pythonowego do tworzenia aplikacji
+związanych z drukiem 3D.
+
 %prep
 %setup -q -n %{module}-%{version}
 %patch0 -p1
 %patch1 -p1
 
-for bad_lang in de_DE es_ES fi_FI fr_FR hu_HU it_IT ja_JP ko_KR nl_NL pl_PL pt_PT ru_RU tr_TR ; do
+for bad_lang in cs_CZ de_DE es_ES fi_FI fr_FR hu_HU it_IT ja_JP ko_KR nl_NL pl_PL pt_PT ru_RU tr_TR ; do
 	lang="$(echo $bad_lang | sed 's/_.*//')"
 	%{__mv} "resources/i18n/$bad_lang" "resources/i18n/$lang"
 done
@@ -82,13 +94,13 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 # Move the cmake files
-mv $RPM_BUILD_ROOT%{_datadir}/cmake* $RPM_BUILD_ROOT%{_datadir}/cmake
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/cmake* $RPM_BUILD_ROOT%{_datadir}/cmake
 
 # Sanitize the location of locale files
-mv $RPM_BUILD_ROOT%{_datadir}/{uranium/resources/i18n,locale}
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/{uranium/resources/i18n,locale}
 ln -s ../../locale $RPM_BUILD_ROOT%{_datadir}/uranium/resources/i18n
-rm $RPM_BUILD_ROOT%{_localedir}/uranium.pot
-rm $RPM_BUILD_ROOT%{_localedir}/*/uranium.po
+%{__rm} $RPM_BUILD_ROOT%{_localedir}/uranium.pot
+%{__rm} $RPM_BUILD_ROOT%{_localedir}/*/uranium.po
 
 %find_lang uranium
 
@@ -104,4 +116,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files doc
 %defattr(644,root,root,755)
-%doc html
+%doc html/*
