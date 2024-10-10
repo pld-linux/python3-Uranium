@@ -23,10 +23,10 @@ BuildRequires:	gettext-tools
 BuildRequires:	python3-Arcus = %{version}
 BuildRequires:	python3-devel
 BuildRequires:	python3-numpy
+BuildRequires:	python3-PyQt5-devel
 BuildRequires:	python3-pytest
 BuildRequires:	python3-scipy
 BuildRequires:	python3-shapely
-BuildRequires:	sip-PyQt5
 Requires:	python3-Arcus = %{version}
 Requires:	python3-PyQt5
 Requires:	python3-numpy
