@@ -59,8 +59,8 @@ związanych z drukiem 3D.
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch0 -p1
-%patch1 -p1
+%patch -P 0 -p1
+%patch -P 1 -p1
 
 for bad_lang in cs_CZ de_DE es_ES fi_FI fr_FR hu_HU it_IT ja_JP ko_KR nl_NL pl_PL pt_PT ru_RU tr_TR ; do
 	lang="$(echo $bad_lang | sed 's/_.*//')"
