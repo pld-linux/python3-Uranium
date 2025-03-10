@@ -8,7 +8,7 @@ Summary(pl.UTF-8):	Szkielet Pythona do tworzenia aplikacji graficznych
 Name:		python3-%{module}
 # keep in sync with CuraEngine, cura, libArcus, libSavitar
 Version:	4.13.2
-Release:	1
+Release:	2
 License:	AGPL v3+
 Group:		Libraries/Python
 #Source0Download: https://github.com/Ultimaker/Uranium/tags
